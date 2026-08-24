@@ -1,5 +1,7 @@
 class CreateUsers < ActiveRecord::Migration[5.1]
+logger           = ActiveSupport::Logger.new(STDOUT)
   def change
+	warn("[DEBUG] >>> Entering change()")
     create_table :users do |t|
       t.string :first_name
       t.string :last_name
@@ -9,6 +11,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.boolean :gender
       t.date :birth_date
       t.timestamps null: false
+	warn("[DEBUG] <<< Exiting change()")
     end
   end
 end

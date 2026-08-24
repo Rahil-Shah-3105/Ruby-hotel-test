@@ -1,8 +1,11 @@
 class Admin::ContactsController < AdminController
+logger           = ActiveSupport::Logger.new(STDOUT)
   before_action :set_contact, only: %i[show edit destroy]
 
   def index
+	warn("[DEBUG] >>> Entering index()")
     @contact = Contact.new
+	warn("[DEBUG] <<< Exiting index()")
     @contacts = Contact.all
   end
 
@@ -31,6 +34,7 @@ class Admin::ContactsController < AdminController
 private
 
   def set_contact
+	warn("[DEBUG] >>> Entering set_contact()")
     @contact = Contact.find(params[:id])
   end
 end
