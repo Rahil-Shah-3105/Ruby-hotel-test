@@ -1,4 +1,5 @@
 class ApartmentsFilterForm
+logger           = ActiveSupport::Logger.new(STDOUT)
   include ActiveModel::Model
 
   attr_accessor(
@@ -16,11 +17,13 @@ class ApartmentsFilterForm
   private
 
   def start_from_date_not_in_past
+	warn("[DEBUG] >>> Entering start_from_date_not_in_past()")
     return unless start_from < Date.today
     errors.add :start_from, 'start date cannot be in past'
   end
 
   def price_from
+	warn("[DEBUG] >>> Entering price_from()")
     return unless price.split(', ')[0] < 0
     errors.add :price, 'price cannot be less than 0'
   end
