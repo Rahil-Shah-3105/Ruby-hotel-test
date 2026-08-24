@@ -1,4 +1,6 @@
+const logger = console;
 $(document).ready(function(){
+logger.debug(`>>> Entering ready(document=${document})`);
   var nowDate = new Date();
   var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
   $('.new_order .input-daterange').datepicker({

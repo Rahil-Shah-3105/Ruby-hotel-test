@@ -1,8 +1,10 @@
 class OrdersController < ApplicationController
+logger           = ActiveSupport::Logger.new(STDOUT)
   before_action :set_order, only: %i[show edit update destroy]
   load_and_authorize_resource
 
   def index
+	warn("[DEBUG] >>> Entering index()")
     @orders = Order.all
   end
 
@@ -65,6 +67,7 @@ class OrdersController < ApplicationController
 private
 
   def order_params
+	warn("[DEBUG] >>> Entering order_params()")
     params.require(:order).permit(:start_from, :end_at, :total, :apartment_id)
   end
 
@@ -73,6 +76,7 @@ private
   end
 
   def count_price
+	warn("[DEBUG] >>> Entering count_price()")
     ((@order[:end_at].to_time - @order[:start_from].to_time)/86400) * @order[:total]
   end
 end

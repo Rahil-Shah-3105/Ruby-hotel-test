@@ -1,8 +1,11 @@
 class ContactsController < ApplicationController
+logger           = ActiveSupport::Logger.new(STDOUT)
   skip_before_action :authenticate_user!
   load_and_authorize_resource
 
   def index
+	warn("[DEBUG] >>> Entering index()")
+	warn("[DEBUG] <<< Exiting index()")
     @contact = Contact.new
   end
 
@@ -22,10 +25,12 @@ class ContactsController < ApplicationController
 private
 
   def contact_params
+	warn("[DEBUG] >>> Entering contact_params()")
     params.require(:contact).permit(:name, :email, :body)
   end
 
   def set_contact
+	warn("[DEBUG] >>> Entering set_contact()")
     @contact = Contact.find(params[:id])
   end
 end

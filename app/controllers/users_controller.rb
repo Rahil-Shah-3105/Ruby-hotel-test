@@ -1,13 +1,17 @@
 class UsersController < ApplicationController
+logger           = ActiveSupport::Logger.new(STDOUT)
   before_action :set_user, only: %i[show edit update destroy]
 
   def index
+	warn("[DEBUG] >>> Entering index()")
     @user = User.all
   end
 
   def show; end
 
   def new
+	warn("[DEBUG] >>> Entering new()")
+	warn("[DEBUG] <<< Exiting new()")
     @user = User.new
   end
 
@@ -50,6 +54,7 @@ class UsersController < ApplicationController
 private
 
   def user_params
+	warn("[DEBUG] >>> Entering user_params()")
     params.require(:user).permit(:first_name, :last_name, :password, :email, :phone, :admin, :gender, :birth_date)
   end
 

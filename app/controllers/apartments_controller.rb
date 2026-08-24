@@ -1,13 +1,17 @@
 class ApartmentsController < ApplicationController
+logger           = ActiveSupport::Logger.new(STDOUT)
   skip_before_action :authenticate_user!, only: %i[index show]
   before_action :set_apartment, only: %i[show edit update destroy]
   load_and_authorize_resource
 
   def index
+	warn("[DEBUG] >>> Entering index()")
     @apartments = Apartment.all
   end
 
   def new
+	warn("[DEBUG] >>> Entering new()")
+	warn("[DEBUG] <<< Exiting new()")
     @apartment = Apartment.new
   end
 
@@ -51,6 +55,7 @@ class ApartmentsController < ApplicationController
 private
 
   def apartment_params
+	warn("[DEBUG] >>> Entering apartment_params()")
     params.require(:apartment).permit(:room_number, :status, :price, :description, :room_type, :occupancy)
   end
 

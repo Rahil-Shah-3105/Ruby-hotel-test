@@ -1,5 +1,7 @@
 class CreateApartments < ActiveRecord::Migration[5.1]
+logger           = ActiveSupport::Logger.new(STDOUT)
   def change
+	warn("[DEBUG] >>> Entering change()")
     create_table :apartments do |t|
       t.string :room_number, null: false
       t.integer :status, default: 0
@@ -9,6 +11,7 @@ class CreateApartments < ActiveRecord::Migration[5.1]
       t.integer :occupancy, default: 1
       t.integer :user_id, index: true
       t.timestamps
+	warn("[DEBUG] <<< Exiting change()")
     end
   end
 end
