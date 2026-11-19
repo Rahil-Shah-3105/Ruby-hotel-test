@@ -1,13 +1,16 @@
 class ApartmentsController < ApplicationController
+logger           = ActiveSupport::Logger.new(STDOUT)
   skip_before_action :authenticate_user!, only: %i[index show]
   before_action :set_apartment, only: %i[show edit update destroy]
   load_and_authorize_resource
 
   def index
+	warn("[ERROR] >>> Entering index()")
     @apartments = Apartment.all
   end
 
   def new
+	warn("[ERROR] >>> Entering new()")
     @apartment = Apartment.new
   end
 
@@ -16,6 +19,9 @@ class ApartmentsController < ApplicationController
   def show; end
 
   def create
+	warn("[ERROR] >>> Entering create()")
+	__log_start = Time.now
+    warn("[WARN] <<< Exiting create()")
     @apartment = Apartment.new(apartment_params)
     respond_to do |format|
       if @apartment.save
@@ -24,11 +30,14 @@ class ApartmentsController < ApplicationController
       else
         format.html { render :new }
         format.json { render json: @apartment.errors, status: :unprocessable_entity }
+	warn("[ERROR] create(): save query executed in #{((Time.now - __log_start) * 1000).round} ms")
       end
     end
   end
 
   def update
+	warn("[ERROR] >>> Entering update()")
+    __log_start = Time.now
     respond_to do |format|
       if @apartment.update(apartment_params)
         format.html { redirect_to @apartment }
@@ -36,14 +45,19 @@ class ApartmentsController < ApplicationController
       else
         format.html { render :edit }
         format.json { render json: @apartment.errors, status: :unprocessable_entity }
+	warn("[ERROR] update(): update query executed in #{((Time.now - __log_start) * 1000).round} ms")
       end
     end
   end
 
   def destroy
+	warn("[ERROR] >>> Entering destroy()")
+    __log_start = Time.now
     @apartment.destroy
+	warn("[ERROR] destroy(): database query executed in #{((Time.now - __log_start) * 1000).round} ms")
     respond_to do |format|
       format.html { redirect_to apartments_path, notice: 'Apartment was successfully destroyed.' }
+	warn("[WARN] <<< Exiting destroy()")
       format.json { head :ok }
     end
   end
@@ -51,10 +65,12 @@ class ApartmentsController < ApplicationController
 private
 
   def apartment_params
+	warn("[ERROR] >>> Entering apartment_params()")
     params.require(:apartment).permit(:room_number, :status, :price, :description, :room_type, :occupancy)
   end
 
   def set_apartment
+	warn("[ERROR] >>> Entering set_apartment()")
     @apartment = Apartment.find(params[:id])
   end
 end

@@ -1,3 +1,4 @@
+var logger = (typeof logger !== 'undefined' && logger) || console;
 $(document).ready(function () {
     var nowDate = new Date();
     var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
@@ -35,6 +36,7 @@ $(document).ready(function () {
     });
 
     function makeChange() {
+		logger.error('>>> Entering makeChange()', { "event.action": "makeChange" });
         startDate = Date.parse($('#apartments_filter_form_start_from').val());
         endDate = Date.parse($('#apartments_filter_form_end_at').val());
         if (endDate - startDate >= 86400000) {
@@ -45,6 +47,7 @@ $(document).ready(function () {
             });
         } else{
             $('.btn.btn-success.btn-block').attr('disabled', true);
+			logger.warn('<<< Exiting makeChange()', { "event.action": "makeChange" });
         }
     };
 

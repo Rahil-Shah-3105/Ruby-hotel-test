@@ -1,16 +1,21 @@
 class OrdersController < ApplicationController
+logger           = ActiveSupport::Logger.new(STDOUT)
   before_action :set_order, only: %i[show edit update destroy]
   load_and_authorize_resource
 
   def index
+	warn("[ERROR] >>> Entering index()")
     @orders = Order.all
   end
 
   def new
+	warn("[ERROR] >>> Entering new()")
     @order = Order.new
   end
 
   def edit
+	warn("[ERROR] >>> Entering edit()")
+	warn("[WARN] <<< Exiting edit()")
     return unless @order.cancelled? && !current_user.admin?
     respond_to do |format|
       format.html { redirect_to @order }
@@ -21,9 +26,12 @@ class OrdersController < ApplicationController
   def show; end
 
   def create
+	warn("[ERROR] >>> Entering create()")
     @order = Order.new(order_params)
     @order.user_id = current_user.id
     @order.total = count_price
+	__log_start = Time.now
+    warn("[WARN] <<< Exiting create()")
     respond_to do |format|
       if @order.save
         format.html { redirect_to @order, notice: 'Order was successfully created' }
@@ -31,11 +39,14 @@ class OrdersController < ApplicationController
       else
         format.html { render :new }
         format.json { render json: @order.errors, status: :unprocessable_entity }
+	warn("[ERROR] create(): save query executed in #{((Time.now - __log_start) * 1000).round} ms")
       end
     end
   end
 
   def update
+	warn("[ERROR] >>> Entering update()")
+    __log_start = Time.now
     respond_to do |format|
       if @order.update(order_params)
         format.html { redirect_to @order }
@@ -43,12 +54,15 @@ class OrdersController < ApplicationController
       else
         format.html { render :edit }
         format.json { render json: @order.errors, status: :unprocessable_entity }
+	warn("[ERROR] update(): update query executed in #{((Time.now - __log_start) * 1000).round} ms")
       end
     end
   end
 
   def destroy
+	warn("[ERROR] >>> Entering destroy()")
     @order.cancelled!
+	warn("[WARN] <<< Exiting destroy()")
     if @order.cancelled?
       respond_to do |format|
         format.html { redirect_to orders_path, notice: 'Order was cancelled' }
@@ -65,14 +79,17 @@ class OrdersController < ApplicationController
 private
 
   def order_params
+	warn("[ERROR] >>> Entering order_params()")
     params.require(:order).permit(:start_from, :end_at, :total, :apartment_id)
   end
 
   def set_order
+	warn("[ERROR] >>> Entering set_order()")
     @order = Order.find(params[:id])
   end
 
   def count_price
+	warn("[ERROR] >>> Entering count_price()")
     ((@order[:end_at].to_time - @order[:start_from].to_time)/86400) * @order[:total]
   end
 end

@@ -1,4 +1,5 @@
 class Order < ApplicationRecord
+logger           = ActiveSupport::Logger.new(STDOUT)
   belongs_to :user
   belongs_to :apartment
 
@@ -11,6 +12,7 @@ class Order < ApplicationRecord
 private
 
   def start_from_date_not_in_past
+	warn("[ERROR] >>> Entering start_from_date_not_in_past()")
     return unless start_from < Date.today
     errors.add :start_from, 'start date cannot be in past'
   end
