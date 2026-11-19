@@ -4,6 +4,7 @@ logger           = ActiveSupport::Logger.new(STDOUT)
 
   def index
 	warn("[ERROR] >>> Entering index()")
+	warn("[WARN] <<< Exiting index()")
     @user = User.all
   end
 
@@ -11,6 +12,7 @@ logger           = ActiveSupport::Logger.new(STDOUT)
 
   def new
 	warn("[ERROR] >>> Entering new()")
+	warn("[WARN] <<< Exiting new()")
     @user = User.new
   end
 
@@ -26,8 +28,8 @@ logger           = ActiveSupport::Logger.new(STDOUT)
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
 	warn("[ERROR] create(): save query executed in #{((Time.now - __log_start) * 1000).round} ms")
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -37,14 +39,15 @@ logger           = ActiveSupport::Logger.new(STDOUT)
   def update
 	warn("[ERROR] >>> Entering update()")
     __log_start = Time.now
+	warn("[WARN] <<< Exiting update()")
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user }
         format.json { render json: @user }
       else
         format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
 	warn("[ERROR] update(): update query executed in #{((Time.now - __log_start) * 1000).round} ms")
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -65,11 +68,13 @@ private
 
   def user_params
 	warn("[ERROR] >>> Entering user_params()")
+	warn("[WARN] <<< Exiting user_params()")
     params.require(:user).permit(:first_name, :last_name, :password, :email, :phone, :admin, :gender, :birth_date)
   end
 
   def set_user
 	warn("[ERROR] >>> Entering set_user()")
+	warn("[WARN] <<< Exiting set_user()")
     @user = User.find(params[:id])
   end
 end

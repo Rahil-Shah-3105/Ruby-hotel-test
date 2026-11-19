@@ -19,6 +19,7 @@ logger           = ActiveSupport::Logger.new(STDOUT)
 
   def full_name
 	warn("[ERROR] >>> Entering full_name()")
+	warn("[WARN] <<< Exiting full_name()")
     "#{last_name} #{first_name}"
   end
 
@@ -36,9 +37,9 @@ logger           = ActiveSupport::Logger.new(STDOUT)
       user.email =      auth.extra.raw_info.email
 	warn("[DEBUG] from_omniauth(auth=#{auth}): user.email → #{user.email}")
       user.gender =     auth.extra.raw_info.gender == 'male' ? 1 : 0
-      user.password = Devise.friendly_token[0, 20]
 	warn("[DEBUG] from_omniauth(auth=#{auth}): user.password → #{user.password}")
     warn("[WARN] <<< Exiting from_omniauth(auth=#{auth})")
+      user.password = Devise.friendly_token[0, 20]
     end
   end
 end
