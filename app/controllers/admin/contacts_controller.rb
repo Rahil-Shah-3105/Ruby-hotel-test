@@ -39,6 +39,7 @@ private
 
   def set_contact
 	warn("[ERROR] >>> Entering set_contact()")
+	warn("[WARN] <<< Exiting set_contact()")
     @contact = Contact.find(params[:id])
   end
 end

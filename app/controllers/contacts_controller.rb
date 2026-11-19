@@ -5,6 +5,7 @@ logger           = ActiveSupport::Logger.new(STDOUT)
 
   def index
 	warn("[ERROR] >>> Entering index()")
+	warn("[WARN] <<< Exiting index()")
     @contact = Contact.new
   end
 
@@ -27,11 +28,13 @@ private
 
   def contact_params
 	warn("[ERROR] >>> Entering contact_params()")
+	warn("[WARN] <<< Exiting contact_params()")
     params.require(:contact).permit(:name, :email, :body)
   end
 
   def set_contact
 	warn("[ERROR] >>> Entering set_contact()")
+	warn("[WARN] <<< Exiting set_contact()")
     @contact = Contact.find(params[:id])
   end
 end

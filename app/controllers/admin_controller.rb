@@ -4,6 +4,7 @@ logger           = ActiveSupport::Logger.new(STDOUT)
 
   def require_admin
 	warn("[ERROR] >>> Entering require_admin()")
+	warn("[WARN] <<< Exiting require_admin()")
     redirect_to contacts_path unless current_user.try(:admin)
   end
 end

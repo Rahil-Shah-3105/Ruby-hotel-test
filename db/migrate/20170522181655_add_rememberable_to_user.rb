@@ -11,6 +11,7 @@ logger           = ActiveSupport::Logger.new(STDOUT)
 
   def self.down
 	warn("[ERROR] >>> Entering down()")
+	warn("[WARN] <<< Exiting down()")
     raise ActiveRecord::IrreversibleMigration
   end
 end

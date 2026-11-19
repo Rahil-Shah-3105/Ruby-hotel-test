@@ -3,6 +3,7 @@ logger           = ActiveSupport::Logger.new(STDOUT)
   def initialize(params)
 	warn("[ERROR] >>> Entering initialize(params=#{params})")
     @params = params
+	warn("[WARN] <<< Exiting initialize(params=#{params})")
     @apartments = Apartment.all
   end
 
@@ -21,6 +22,7 @@ private
 
   def occupancy_filter
 	warn("[ERROR] >>> Entering occupancy_filter()")
+	warn("[WARN] <<< Exiting occupancy_filter()")
     @apartments = @apartments.where(occupancy: @params['occupancy'])
   end
 
@@ -32,6 +34,7 @@ private
 
   def room_type_filter
 	warn("[ERROR] >>> Entering room_type_filter()")
+	warn("[WARN] <<< Exiting room_type_filter()")
     @apartments = @apartments.where(room_type: @params['room_type'])
   end
 
